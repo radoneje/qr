@@ -43,8 +43,8 @@ async function sentEmail(subj,html, to){
       from: '"QR code" <qr@sber.university>', // sender address
       to: to, // list of receivers
       subject: subj, // Subject line
-      text: "html", // plain text body
-      // html: html, // html body
+     // text: "html", // plain text body
+       html: html, // html body
     });
     console.log("sentEmail 3")
   }
