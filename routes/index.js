@@ -28,19 +28,19 @@ async function sentEmail(subj,html, to){
     let testAccount = await nodemailer.createTestAccount();
     let transporter = nodemailer.createTransport({
       // host: "smtp.yandex.ru",
-      host: "smtp.google.com",
+      host: "mail.nic.ru",
       port: 465,
       secure: true, // true for 465, false for other ports
       auth: {
         //  user: 'QR@sber.university', // generated ethereal user
         //  pass: 'e24-Pkb-73A-Hfy', // generated ethereal password
-        user: 'den.shevchenko@gmail.com', // generated ethereal user
-        pass: "Gbplfgbplf13'", // generated ethereal password
+        user: 'd@rustv.ru', // generated ethereal user
+        pass: "Gbplfgbplf13", // generated ethereal password
       },
     });
     console.log("sentEmail 2", transporter.host)
     let info = await transporter.sendMail({
-      from: '"QR code" <den.shevchenko@gmail.com>', // sender address
+      from: '"QR code" <d@rustv.ru>', // sender address
       to: to, // list of receivers
       subject: subj, // Subject line
       text: html, // plain text body
