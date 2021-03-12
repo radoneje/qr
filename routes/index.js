@@ -17,4 +17,42 @@ router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   var result=await QRCode.toFile("/tmp/qr.png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
   res.sendFile("/tmp/qr.png")
 })
+router.post( async (req, res, next)=>{
+  res.json(await sentEmail(req.body.subj, req.body.html, req.body.to) )
+})
+async function sentEmail(subj,html, to){
+  try {
+    console.log("sentEmail 1")
+    const nodemailer = require("nodemailer");
+    let testAccount = await nodemailer.createTestAccount();
+    let transporter = nodemailer.createTransport({
+      // host: "smtp.yandex.ru",
+      host: "smtp.google.com",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        //  user: 'QR@sber.university', // generated ethereal user
+        //  pass: 'e24-Pkb-73A-Hfy', // generated ethereal password
+        user: 'den.shevchenko@gmail.com', // generated ethereal user
+        pass: "Gbplfgbplf13'", // generated ethereal password
+      },
+    });
+    console.log("sentEmail 2", transporter.host)
+    let info = await transporter.sendMail({
+      from: '"QR code" <den.shevchenko@gmail.com>', // sender address
+      to: to, // list of receivers
+      subject: subj, // Subject line
+      text: html, // plain text body
+      // html: html, // html body
+    });
+    console.log("sentEmail 3")
+  }
+  catch (e) {
+    console.log(e);
+    console.log("sentEmail 4")
+    return false;
+  }
+  return true
+
+}
 module.exports = router;
