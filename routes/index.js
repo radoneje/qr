@@ -14,7 +14,7 @@ router.get('/qrcode/:userid', async (req, res, next)=>{
 })
 router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   const qrStream = new PassThrough();
-  var result=await QRCode.toFileStream(JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
+  var result=await QRCode.toFileStream(qrStream, JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
   qrStream.pipe(res);
 })
 module.exports = router;
