@@ -23,7 +23,7 @@ router.post( "/sentEmail", async (req, res, next)=>{
 })
 async function sentEmail(subj,html, to){
   try {
-    console.log("sentEmail 1")
+    console.log("sentEmail 1 " , to)
     const nodemailer = require("nodemailer");
     let testAccount = await nodemailer.createTestAccount();
     let transporter = nodemailer.createTransport({
