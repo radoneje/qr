@@ -17,7 +17,7 @@ router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   var result=await QRCode.toFile("/tmp/qr.png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
   res.sendFile("/tmp/qr.png")
 })
-router.post( async (req, res, next)=>{
+router.post( "/sentEmail", async (req, res, next)=>{
   res.json(await sentEmail(req.body.subj, req.body.html, req.body.to) )
 })
 async function sentEmail(subj,html, to){
