@@ -15,6 +15,6 @@ router.get('/qrcode/:userid', async (req, res, next)=>{
 router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   const qrStream = new PassThrough();
   var result=await QRCode.toFile("/tmp/qr.png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
-  res.file("/tmp/qr.png")
+  res.sendFile("/tmp/qr.png")
 })
 module.exports = router;
