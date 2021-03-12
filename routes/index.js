@@ -18,7 +18,8 @@ router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   res.sendFile("/tmp/qr.png")
 })
 router.post( "/sentEmail", async (req, res, next)=>{
-  res.json(await sentEmail(req.body.subj, req.body.html, req.body.to) )
+  await sentEmail(req.body.subj, req.body.html, req.body.to)
+  res.json( 1)
 })
 async function sentEmail(subj,html, to){
   try {
