@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-import { PassThrough } from 'stream';
+var PassThrough=require("stream")
 var QRCode = require('qrcode')
 /* GET home page. */
 router.get('/', function(req, res, next) {
