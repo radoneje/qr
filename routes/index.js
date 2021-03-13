@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 router.get('/qrcode/:userid', async (req, res, next)=>{
   var dataurl=await QRCode.toDataURL(JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
   res.set('Content-Type', 'text/html');
-  res.send(Buffer.from('<html><body><img src=\"'+dataurl+'\"/></body></html>'));
+  res.send(Buffer.from('<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head></head><body><img src=\"'+dataurl+'\"/></body></html>'));
 })
 router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   const qrStream = new PassThrough();
