@@ -4,7 +4,7 @@ var PassThrough=require("stream")
 var QRCode = require('qrcode')
 var moment = require('moment')
 var fs= require('fs')
-import { v4 as uuidv4 } from 'uuid';
+
 /* GET home page. */
 
 
@@ -22,7 +22,7 @@ router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   const qrStream = new PassThrough();
 
   const uniqueInsuranceId = uuidv4();
-    var fn=uniqueInsuranceId;
+
     var result=await QRCode.toFile("/tmp/qr"+fn+".png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
 
     setTimeout(()=>{
