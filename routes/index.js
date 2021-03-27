@@ -19,8 +19,9 @@ router.get('/qrcode/:userid', async (req, res, next)=>{
 })
 router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   const qrStream = new PassThrough();
-  generate(10,async (iid)=>{
-    var fn=moment().unix()+iid
+  const uuidv4 = require('uuid/v4')
+  const uniqueInsuranceId = uuidv4()
+    var fn=uniqueInsuranceId;
     var result=await QRCode.toFile("/tmp/qr"+fn+".png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
 
     setTimeout(()=>{
@@ -28,7 +29,7 @@ router.get('/qrcodeimage/:userid', async (req, res, next)=>{
     },1000)
     res.sendFile("/tmp/qr"+fn+".png")
 
-  });
+
 
 
 
