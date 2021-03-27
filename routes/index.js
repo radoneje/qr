@@ -14,8 +14,9 @@ router.get('/qrcode/:userid', async (req, res, next)=>{
 })
 router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   const qrStream = new PassThrough();
-  var result=await QRCode.toFile("/tmp/qr.png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
-  res.sendFile("/tmp/qr.png")
+  req.params.userid=parseInt(req.params.userid);
+  var result=await QRCode.toFile("/tmp/qr"+req.params.userid+".png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
+  res.sendFile("/tmp/qr"+req.params.userid+".png")
 })
 router.post( "/sentEmail", async (req, res, next)=>{
   await sentEmail(req.body.subj, req.body.html, req.body.to)
