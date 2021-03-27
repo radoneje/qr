@@ -4,7 +4,7 @@ var PassThrough=require("stream")
 var QRCode = require('qrcode')
 var moment = require('moment')
 var fs= require('fs')
-const { v4: uuidv4 } = require('uuid');
+const { uuidv4 } = require('uuid');
 
 /* GET home page. */
 
