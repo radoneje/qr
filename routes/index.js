@@ -20,7 +20,7 @@ var fn=moment().unix();
   var result=await QRCode.toFile("/tmp/qr"+fn+".png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
   res.sendFile("/tmp/qr"+fn+".png")
   await fs.unlink("/tmp/qr"+fn+".png")
-
+  console.log("/tmp/qr"+fn+".png")
 })
 router.post( "/sentEmail", async (req, res, next)=>{
   await sentEmail(req.body.subj, req.body.html, req.body.to)
