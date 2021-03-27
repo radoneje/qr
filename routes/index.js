@@ -22,7 +22,7 @@ router.get('/qrcode/:userid', async (req, res, next)=>{
 router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   const qrStream = new PassThrough();
 
-  const uniqueInsuranceId =uniqid();
+  const fn =uniqid();
 
     var result=await QRCode.toFile("/tmp/qr"+fn+".png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
 
