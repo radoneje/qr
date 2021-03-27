@@ -3,7 +3,7 @@ var router = express.Router();
 var PassThrough=require("stream")
 var QRCode = require('qrcode')
 var moment = require('moment')
-var fs= require(fs)
+var fs= require('fs')
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.sendStatus(400);
@@ -19,8 +19,8 @@ router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   var fn=moment().unix();
   var result=await QRCode.toFile("/tmp/qr"+fn+".png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
   res.sendFile("/tmp/qr"+fn+".png")
- // await fs.unlink("/tmp/qr"+fn+".png")
- // console.log("/tmp/qr"+fn+".png")
+  await fs.unlink("/tmp/qr"+fn+".png")
+  console.log("/tmp/qr"+fn+".png")
 })
 router.post( "/sentEmail", async (req, res, next)=>{
   await sentEmail(req.body.subj, req.body.html, req.body.to)
