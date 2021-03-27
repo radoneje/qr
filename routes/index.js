@@ -5,24 +5,31 @@ var QRCode = require('qrcode')
 var moment = require('moment')
 var fs= require('fs')
 /* GET home page. */
+
+
 router.get('/', function(req, res, next) {
   res.sendStatus(400);
 });
 
 router.get('/qrcode/:userid', async (req, res, next)=>{
   var dataurl=await QRCode.toDataURL(JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
+
   res.set('Content-Type', 'text/html');
   res.send(Buffer.from('<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head></head><body><img src=\"'+dataurl+'\"/></body></html>'));
 })
 router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   const qrStream = new PassThrough();
-  var fn=moment().unix();
-  var result=await QRCode.toFile("/tmp/qr"+fn+".png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
+  generate(10,async (iid)=>{
+    var fn=moment().unix()+iid
+    var result=await QRCode.toFile("/tmp/qr"+fn+".png", JSON.stringify({userid:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
 
-  setTimeout(()=>{
-    fs.unlink("/tmp/qr"+fn+".png", ()=>{console.log("/tmp/qr"+fn+".png")})
-  },1000)
-  res.sendFile("/tmp/qr"+fn+".png")
+    setTimeout(()=>{
+      fs.unlink("/tmp/qr"+fn+".png", ()=>{console.log("/tmp/qr"+fn+".png")})
+    },1000)
+    res.sendFile("/tmp/qr"+fn+".png")
+
+  });
+
 
 
 })
@@ -65,5 +72,19 @@ async function sentEmail(subj,html, to){
   }
   return true
 
+}
+
+function generate(count, k) {
+  var _sym = 'abcdefghijklmnopqrstuvwxyz1234567890';
+  var str = '';
+
+  for(var i = 0; i < count; i++) {
+    str += _sym[parseInt(Math.random() * (_sym.length))];
+  }
+  base.getID(str, function(err, res) {
+    if(!res.length) {
+      k(str)                   // use the continuation
+    } else generate(count, k)  // otherwise, recurse on generate
+  });
 }
 module.exports = router;
