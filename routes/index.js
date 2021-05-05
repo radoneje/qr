@@ -19,6 +19,13 @@ router.get('/qrcode/:userid', async (req, res, next)=>{
   res.set('Content-Type', 'text/html');
   res.send(Buffer.from('<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head></head><body><img src=\"'+dataurl+'\"/></body></html>'));
 })
+router.get('/qrcode2/:userid', async (req, res, next)=>{
+  var dataurl=await QRCode.toDataURL(JSON.stringify({i:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
+
+  res.set('Content-Type', 'text/html');
+  res.send(Buffer.from('<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head></head><body><img src=\"'+dataurl+'\"/></body></html>'));
+})
+
 router.get('/qrcodeimage/:userid', async (req, res, next)=>{
   const qrStream = new PassThrough();
 
@@ -36,6 +43,20 @@ router.get('/qrcodeimage/:userid', async (req, res, next)=>{
 
 
 })
+router.get('/qrcodeimage2/:userid', async (req, res, next)=>{
+  const qrStream = new PassThrough();
+
+  const fn =uniqid();
+
+  var result=await QRCode.toFile("/tmp/qr"+fn+".png", JSON.stringify({i:req.params.userid}), { errorCorrectionLevel: 'Q', width:300 });
+
+  setTimeout(()=>{
+    fs.unlink("/tmp/qr"+fn+".png", ()=>{console.log("/tmp/qr"+fn+".png")})
+  },1000)
+  res.sendFile("/tmp/qr"+fn+".png")
+
+})
+
 router.post( "/sentEmail", async (req, res, next)=>{
   await sentEmail(req.body.subj, req.body.html, req.body.to)
   res.json( 1)
